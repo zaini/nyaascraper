@@ -17,7 +17,7 @@ Soon:
 * Any BitTorrent client which allows for magnet links
 
 # Installation
-1. Download HorribleSubsScraper.py and run it with Python
+1. Download HorribleSubsScraper.py and run it through Python IDLE
 
 (Will be packaged properly later)
 
