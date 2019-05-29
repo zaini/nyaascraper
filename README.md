@@ -30,3 +30,5 @@ If the specified show at the specified quality is not available, it will not be 
 To avoid having to change the file download location for each torrent, change it on one torret so it becomes the default then run the program. Your client may also allow you to check a box to not open up a dialog box.
 
 I thought to make this when I used jtara1's version (found here: https://github.com/jtara1/horriblesubs_batch_downloader) but had it crash due to dialog Windows opening up and also that I couldn't change the quality. It was also a learning expierence for my first somewhat useful scraper.
+
+This was another similar program, although I haven't used it: https://youtu.be/97Mfx11qjIs
