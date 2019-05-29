@@ -11,6 +11,7 @@ Video walkthrough: (coming soon)
 Soon:
 * use horriblesubs.info instead of nyaa.si
 * optimise how the number of pages and rows are found, should improve performance
+* select range of episodes to download
 
 # Requirements
 * Python 3+
