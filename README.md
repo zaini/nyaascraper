@@ -3,7 +3,7 @@ An application to scrap and run magnet links for HorribleSubs torrents from nyaa
 
 This scraper will search for the entered show at the selected quality on HorribleSubs page on nyaa.si and open the magnet links.
 
-Video walkthrough: (coming soon)
+Video walkthrough: https://youtu.be/IetQGifSNEs
 
 # Features
 * searches for shows using the same search engine as on nyaa.si
