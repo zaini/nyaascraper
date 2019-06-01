@@ -8,6 +8,7 @@ Video walkthrough: https://youtu.be/IetQGifSNEs
 # Features
 * searches for shows using the same search engine as on nyaa.si
 * allows user to select quality (480p, 720p or 1080p)
+
 Soon:
 * use horriblesubs.info instead of nyaa.si
 * optimise how the number of pages and rows are found, should improve performance
