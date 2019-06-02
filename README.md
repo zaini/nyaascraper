@@ -3,13 +3,13 @@ An application to scrap and run magnet links for HorribleSubs torrents from nyaa
 
 This scraper will search for the entered show at the selected quality on HorribleSubs page on nyaa.si and open the magnet links.
 
-Video walkthrough: https://youtu.be/IetQGifSNEs
+Video walkthrough: https://youtu.be/IetQGifSNEs (This is before an installer was made, now you can just use that which is much simpler.)
 
 # Features
 * searches for shows using the same search engine as on nyaa.si
 * allows user to select quality (480p, 720p or 1080p)
 
-Soon:
+**Soon:**
 * use horriblesubs.info instead of nyaa.si
 * optimise how the number of pages and rows are found, should improve performance
 * select range of episodes to download
@@ -19,9 +19,12 @@ Soon:
 * Any BitTorrent client which allows for magnet links
 
 # Installation
-1. Download HorribleSubsScraper.py and run it through Python IDLE
+* Download HorribleSubsScraper.py and run it through Python IDLE, Python 3.7+ is what it was made with.
 
-(Will be packaged properly later)
+Or
+
+1. Download HorribleSubsScraper-Installer
+2. Run it and follow the instructions to install the program and run it.
 
 # Usage
 Enter the show's name as you would search for it on nyaa.si/user/HorribleSubs
