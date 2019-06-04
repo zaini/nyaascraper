@@ -53,11 +53,11 @@ for page in range(1, amountOfPages()+1):
     for row in range(0, amountOfRows(page)):
         if "[HorribleSubs]" not in str(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all("a")[2]):
             if quality[qselector] in str(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all("a")[1]):
-                print(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all("a")[1])
+                print(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all("a")[1].get_text())
                 webbrowser.open(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all(class_ = "text-center")[0].find_all("a", href = True)[1]['href'])
 
         else:
             if quality[qselector] in str(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all("a")[2]):
-                print(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all("a")[2])
+                print(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all("a")[2].get_text())
                 webbrowser.open(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all(class_ = "text-center")[0].find_all("a", href = True)[1]['href'])
 print("Complete")
