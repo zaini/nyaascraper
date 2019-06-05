@@ -56,7 +56,7 @@ def amountOfRows(p):
 def downloader(episodename):
     if quality[qselector] == episodename.split()[-1].strip(".mkv") and lrange <= float(episodename.split()[-2]) <= urange:            
         print(episodename.strip(".mkv"))
-        #webbrowser.open(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all(class_ = "text-center")[0].find_all("a", href = True)[1]['href'])
+        webbrowser.open(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all(class_ = "text-center")[0].find_all("a", href = True)[1]['href'])
         
     elif float(episodename.split()[-2]) > urange:
         print("Completed!")
