@@ -17,9 +17,14 @@ while True:
     except ValueError:
         print("Enter a valid number: 0, 1 or 2")
 
-print("If nothing happens, the anime you entered isn't on HorribleSubs' torrents on nyaa.si. This will download the anime in the resolution you selected. If it doesn't find that resolution, it just don't download that episode so you'll have to do it manually.")
-        
-url = 'https://nyaa.si/user/HorribleSubs?f=0&c=0_0&q='+anime+'&p='
+#Add validation
+print("Now enter the range of episodes you want to download. \nFor example to download all episodes between and including episodes 1 and 10, enter 1 and then 10.\nIf you want to download the whole series, just press enter. You could then manually delete the torrents you don't want to keep from your client.\n")
+lrange = int(input("Enter the episode you want to start downloading from:\n"))
+urange = int(input("Enter the episode you want to stop downloading at:\n"))
+
+print("If nothing happens, the anime you entered isn't on HorribleSubs' torrents on nyaa.si. This will download the anime in the resolution you selected. If it doesn't find that resolution, it just doesn't download that episode so you'll have to do it manually.\n")
+
+url = 'https://nyaa.si/user/HorribleSubs?f=0&c=0_0&q='+anime+'&o=asc&p='
 
 def URLPage(p, url):
     global html
@@ -48,16 +53,22 @@ def amountOfRows(p):
         except IndexError:
             return row
 
+def downloader(episodename):
+    if quality[qselector] == episodename.split()[-1].strip(".mkv") and lrange <= float(episodename.split()[-2]) <= urange:            
+        print(episodename.strip(".mkv"))
+        #webbrowser.open(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all(class_ = "text-center")[0].find_all("a", href = True)[1]['href'])
+        
+    elif float(episodename.split()[-2]) > urange:
+        print("Completed!")
+        print(exit())
+
 for page in range(1, amountOfPages()+1):
     URLPage(page, url)
     for row in range(0, amountOfRows(page)):
-        if "[HorribleSubs]" not in str(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all("a")[2]):
-            if quality[qselector] in str(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all("a")[1]):
-                print(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all("a")[1].get_text())
-                webbrowser.open(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all(class_ = "text-center")[0].find_all("a", href = True)[1]['href'])
+        episodename = BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all("a")[1].get_text()
+        if "[HorribleSubs]" == episodename.split()[0]:
+            downloader(episodename)
 
         else:
-            if quality[qselector] in str(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all("a")[2]):
-                print(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all("a")[2].get_text())
-                webbrowser.open(BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all(class_ = "text-center")[0].find_all("a", href = True)[1]['href'])
-print("Complete")
+            episodename = BeautifulSoup(html, features = "lxml").find_all(class_ = "success")[row].find_all("a")[2].get_text()
+            downloader(episodename)
