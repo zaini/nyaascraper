@@ -33,6 +33,7 @@ Or
 
 # Usage
 Enter the show's name as you would search for it on nyaa.si/user/HorribleSubs
+
 Enter a number corresponding to the quality you want it to be downloaded in.
 
 # Additional information
