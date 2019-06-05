@@ -8,11 +8,15 @@ Video walkthrough: https://youtu.be/IetQGifSNEs (This is before an installer was
 # Features
 * searches for shows using the same search engine as on nyaa.si
 * allows user to select quality (480p, 720p or 1080p)
+* select range of episodes to download, including episodes with decimals e.g. 13.5
+* doesn't download premade batch files which are already available by HorribleSubs on nyaa.si
+* loads magnets in chronological order of upload to nyaa.si
 
 **Soon:**
 * use horriblesubs.info instead of nyaa.si
 * optimise how the number of pages and rows are found, should improve performance
-* select range of episodes to download
+* add validation to episode range input
+* updated installer and demo video for latest features
 
 # Requirements
 * Python 3+
@@ -23,6 +27,7 @@ Video walkthrough: https://youtu.be/IetQGifSNEs (This is before an installer was
 
 Or
 
+(Installer is missing some features.)
 1. Download HorribleSubsScraper-Installer
 2. Run it and follow the instructions to install the program and run it.
 
