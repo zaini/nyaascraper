@@ -39,7 +39,7 @@ def download(show_name, quality, start_ep, end_ep):
                     row_title = content['title'].split(" ")
                     # Checking that row is an episode to be downloaded
                     try:
-                        if start_ep <= int(row_title[-2]) <= end_ep and quality in row_title[-1]:
+                        if start_ep <= float(row_title[-2]) <= end_ep and quality in row_title[-1]:
                             print("Opening: " + content['title'])
                             webbrowser.open(magnet)
                             episodes_to_download -= 1
