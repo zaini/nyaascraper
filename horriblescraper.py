@@ -2,23 +2,20 @@
 
 import getopt
 import sys
+import webbrowser
+
 import requests
 from bs4 import BeautifulSoup
-import webbrowser
 
 url = 'https://nyaa.si/user/HorribleSubs?f=0&c=0_0&q={}&o=desc&p={}'
 
-qualities = ["480", "720", "1080"]
-
-
-# python horriblescraper.py -s "one piece" -q 720 -a 920 -z 923
 
 # TODO validation
 def download(show_name, quality, start_ep, end_ep):
     search_url = url.format(show_name, "{}")
     start_ep = int(start_ep)
     end_ep = int(end_ep)
-    episodes_to_download = end_ep - start_ep
+    episodes_to_download = end_ep - start_ep + 1
 
     for page_number in range(1, 100):  # maximum page is 15 anyways
         page_url = search_url.format(page_number)
@@ -26,7 +23,9 @@ def download(show_name, quality, start_ep, end_ep):
         soup = BeautifulSoup(page_html.text, 'html.parser')
         rows = soup.find_all('tr', class_='success')
 
-        print(soup.find('li', class_='active').text)
+        # Break if the actual page is not the same as page_number, meaning there are no more pages
+        if page_number != int(soup.find('li', class_='active').text):
+            break
 
         for row in rows:
             row_contents = row.findAll('a')
@@ -43,11 +42,18 @@ def download(show_name, quality, start_ep, end_ep):
                         if start_ep <= int(row_title[-2]) <= end_ep and quality in row_title[-1]:
                             print("Opening: " + content['title'])
                             webbrowser.open(magnet)
+                            episodes_to_download -= 1
                     except:
                         # Title format is unexpected
                         pass
 
+        # Break if episodes have been downloaded
+        if episodes_to_download == 0:
+            break
+
     print("Complete.")
+    if episodes_to_download > 0:
+        print("{} episode(s) could not be loaded.".format(episodes_to_download))
 
 
 if __name__ == '__main__':
