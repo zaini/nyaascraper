@@ -3,36 +3,51 @@
 import getopt
 import sys
 import requests
-from bs4 import BeautifulSoup as bs
+from bs4 import BeautifulSoup
+import webbrowser
 
 url = 'https://nyaa.si/user/HorribleSubs?f=0&c=0_0&q={}&o=desc&p={}'
 
 qualities = ["480", "720", "1080"]
 
-# python horriblescraper.py -s "one piece" -q 720 -a 800 -z 1000
+
+# python horriblescraper.py -s "one piece" -q 720 -a 920 -z 923
 
 # TODO validation
 def download(show_name, quality, start_ep, end_ep):
     search_url = url.format(show_name, "{}")
     start_ep = int(start_ep)
     end_ep = int(end_ep)
+    episodes_to_download = end_ep - start_ep
 
-    for page_number in range(1, 5 + 1):
+    for page_number in range(1, 100):  # maximum page is 15 anyways
         page_url = search_url.format(page_number)
         page_html = requests.get(page_url)
-        soup = bs(page_html.text, 'html.parser')
-
+        soup = BeautifulSoup(page_html.text, 'html.parser')
         rows = soup.find_all('tr', class_='success')
-        print(type(rows), len(rows))
+
+        print(soup.find('li', class_='active').text)
+
         for row in rows:
             row_contents = row.findAll('a')
+
+            links = row.find_all('td', class_='text-center')[0].find_all('a')
+            magnet = links[1]['href']
+
             for content in row_contents:
                 # Checking that content being looked at is the 'a' element with the episode name
                 if content.has_attr('title') and show_name.upper() in content['title'].upper():
                     row_title = content['title'].split(" ")
                     # Checking that row is an episode to be downloaded
-                    if start_ep <= int(row_title[-2]) <= end_ep and quality in row_title[-1]:
-                        print("Opening: " + content['title'])
+                    try:
+                        if start_ep <= int(row_title[-2]) <= end_ep and quality in row_title[-1]:
+                            print("Opening: " + content['title'])
+                            webbrowser.open(magnet)
+                    except:
+                        # Title format is unexpected
+                        pass
+
+    print("Complete.")
 
 
 if __name__ == '__main__':
