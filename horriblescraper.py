@@ -23,10 +23,6 @@ def download(show_name, quality, start_ep, end_ep):
         soup = BeautifulSoup(page_html.text, 'html.parser')
         rows = soup.find_all('tr', class_='success')
 
-        # Break if the actual page is not the same as page_number, meaning there are no more pages
-        if page_number != int(soup.find('li', class_='active').text):
-            break
-
         for row in rows:
             row_contents = row.findAll('a')
 
@@ -47,8 +43,9 @@ def download(show_name, quality, start_ep, end_ep):
                         # Title format is unexpected
                         pass
 
+        # Break if the actual page is not the same as page_number, meaning there are no more pages
         # Break if episodes have been downloaded
-        if episodes_to_download == 0:
+        if soup.find('li', class_='active') is None or page_number != int(soup.find('li', class_='active').text) or episodes_to_download == 0:
             break
 
     print("Complete.")
