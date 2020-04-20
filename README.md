@@ -25,6 +25,7 @@ Video walkthrough: https://youtu.be/IetQGifSNEs [OUTDATED, check usage below]
 
 # Installation
 * Download horriblescraper.py and run it
+* You will need to have ```requests``` and ```BeautifulSoup``` installed
 
 # Usage
 
