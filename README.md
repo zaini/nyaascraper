@@ -12,20 +12,23 @@ Video walkthrough: https://youtu.be/IetQGifSNEs [OUTDATED, check usage below]
 * doesn't download premade batch files which are already available by HorribleSubs on nyaa.si
 * loads magnets in chronological order of upload to nyaa.si
 * tells you how many episodes weren't found/loaded
+* option to download the .torrent files instead of opening the magnets directly (although not recommended)
 
 **Soon:**
 * use horriblesubs.info instead of nyaa.si
-* validation for user input. for now just don't be an idiot.
 * updated demo video
 * output which files were not found
 
 # Requirements
-* Python 3+
+* Python 3.0+
 * Any BitTorrent client which allows for magnet links
 
 # Installation
 * Download horriblescraper.py and run it
 * You will need to have ```requests``` and ```BeautifulSoup``` installed
+    * To install these, you will need ```pip```
+    * Simply run ```pip install requests``` and ```pip install beautifulsoup4```
+    * Search online for more help if you need it
 
 # Usage
 
@@ -48,6 +51,10 @@ Enter the show's name as you would search for it on nyaa.si/user/HorribleSubs
 Enter the quality you want. HorribleSubs is usually just 480p, 720p or 1080p
 
 Then enter the first episode and last episode you want to download. This is an inclusive range. e.g. Entering 10 and 15 will also download episodes 10 and 15.
+
+You can add ```-f``` or ```--file``` at the end of the command to download the .torrent files instead of opening the magnets, although this is not suggested.
+
+(in case it's not clear, you'll need to run all these commands from a terminal)
 
 # Additional information
 If the specified show at the specified quality is not available, it will not be loaded and you'd have to check that manually.

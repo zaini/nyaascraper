@@ -8,10 +8,10 @@ import requests
 from bs4 import BeautifulSoup
 
 url = 'https://nyaa.si/user/HorribleSubs?f=0&c=0_0&q={}&o=desc&p={}'
+base_url = 'https://nyaa.si/'
 
 
-# TODO validation
-def download(show_name, quality, start_ep, end_ep):
+def download(show_name, quality, start_ep, end_ep, req_file):
     search_url = url.format(show_name, "{}")
     start_ep = int(start_ep)
     end_ep = int(end_ep)
@@ -27,7 +27,7 @@ def download(show_name, quality, start_ep, end_ep):
             row_contents = row.findAll('a')
 
             links = row.find_all('td', class_='text-center')[0].find_all('a')
-            magnet = links[1]['href']
+            magnet = base_url + links[0]['href'] if req_file else links[1]['href']
 
             for content in row_contents:
                 # Checking that content being looked at is the 'a' element with the episode name
@@ -53,14 +53,21 @@ def download(show_name, quality, start_ep, end_ep):
         print("{} episode(s) could not be loaded.".format(episodes_to_download))
 
 
+def usage_error():
+    print("usage: horriblescraper.py -s <show_name> -q <quality> -a <start_episode> -z <end_episode>\nadd -f or "
+          "--file at the end to download the .torrent files instead of open magnets")
+    sys.exit(2)
+
+
 if __name__ == '__main__':
     show_name = None
     quality = None
     start_ep = None
     end_ep = None
+    req_file = False
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hs:q:a:z:", ["help", "show=", "quality=", "start=", "end="])
+        opts, args = getopt.getopt(sys.argv[1:], "hfs:q:a:z:", ["help", "file", "show=", "quality=", "start=", "end="])
     except getopt.GetoptError:
         print("horriblescraper.py -s <show_name> -q <quality> -a <start_episode> -z <end_episode>")
         sys.exit(2)
@@ -68,8 +75,7 @@ if __name__ == '__main__':
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             # TODO add more help information
-            print("usage: horriblescraper.py -s <show_name> -q <quality> -a <start_episode> -z <end_episode>")
-            sys.exit(2)
+            usage_error()
         elif opt in ("-s", "--show"):
             show_name = arg
         elif opt in ("-q", "--quality"):
@@ -78,5 +84,12 @@ if __name__ == '__main__':
             start_ep = arg
         elif opt in ("-z", "--end"):
             end_ep = arg
+        elif opt in ("-f", "--file"):
+            req_file = True
 
-    download(show_name, quality, start_ep, end_ep)
+    tags = [show_name, quality, start_ep, end_ep, req_file]
+
+    if None in tags:
+        usage_error()
+    else:
+        download(show_name, quality, start_ep, end_ep, req_file)
