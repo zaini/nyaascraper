@@ -2,6 +2,7 @@
 
 import getopt
 import sys
+import time
 import webbrowser
 
 import requests
@@ -11,7 +12,7 @@ url = 'https://nyaa.si/user/HorribleSubs?f=0&c=0_0&q={}&o=desc&p={}'
 base_url = 'https://nyaa.si/'
 
 
-def download(show_name, quality, start_ep, end_ep, req_file):
+def download(show_name, quality, start_ep, end_ep, req_file, sleep_time=0.5):
     search_url = url.format(show_name, "{}")
     start_ep = int(start_ep)
     end_ep = int(end_ep)
@@ -39,6 +40,7 @@ def download(show_name, quality, start_ep, end_ep, req_file):
                             print("Opening: " + content['title'])
                             webbrowser.open(magnet)
                             episodes_to_download -= 1
+                            time.sleep(sleep_time)
                     except:
                         # Title format is unexpected
                         pass
