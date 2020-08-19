@@ -3,7 +3,7 @@ An application to scrap and open magnet links for HorribleSubs torrents from nya
 
 This scraper will search for the provided show at the specified quality on HorribleSubs' page on nyaa.si and open the magnet links in your default BitTorrent client.
 
-Video walkthrough: https://youtu.be/IetQGifSNEs [OUTDATED, check usage below]
+Video walkthrough: https://youtu.be/YAVOioo6PPM
 
 # Features
 * searches for shows using the same search engine as on nyaa.si
@@ -33,7 +33,7 @@ Video walkthrough: https://youtu.be/IetQGifSNEs [OUTDATED, check usage below]
 # Usage
 
 ```
-python horriblescraper.py -s <show_name>> -q <quality> -a <start_epsiode> -z <end_epsiode>
+python horriblescraper.py -s <show_name> -q <quality> -a <start_epsiode> -z <end_epsiode>
 ```
 
 e.g.
