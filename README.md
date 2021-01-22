@@ -1,11 +1,11 @@
 # nyaascraper
-An application to scrap and open magnet links for HorribleSubs/subsplease/Erai-raws torrents from nyaa.si. Useful for when batches don't exist or you don't have some particular episodes.
+An application to scrape and open magnet links for HorribleSubs/subsplease/Erai-raws torrents from nyaa.si. Useful for when batches don't exist or you don't have some particular episodes.
 
 This scraper will search for the provided show at the specified quality on the corresponding groups page on nyaa.si and open the magnet links in your default BitTorrent client.
 
 This is a modified version of my old HorribleSubs scraper, but made to work with a couple more groups: https://github.com/zaini/horriblesubsscraper
 
-Video walkthrough: https://youtu.be/YAVOioo6PPM
+Video walkthrough (of horriblescraper, which is very similar): https://youtu.be/YAVOioo6PPM
 
 # Features
 * searches for shows using the same search engine as on nyaa.si
