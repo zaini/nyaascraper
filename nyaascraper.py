@@ -85,7 +85,7 @@ def download(group, show_name, quality, start_ep, end_ep, req_file, sleep_time=0
 
 
 def usage_error():
-    print("usage: horriblescraper.py -s <show_name> -q <quality> -a <start_episode> -z <end_episode>\nadd -f or "
+    print("usage: nyaascraper.py -s <show_name> -q <quality> -a <start_episode> -z <end_episode>\nadd -f or "
           "--file at the end to download the .torrent files instead of open magnets")
     sys.exit(2)
 
@@ -100,7 +100,7 @@ if __name__ == '__main__':
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hfs:q:a:z:", ["help", "file", "show=", "quality=", "start=", "end="])
     except getopt.GetoptError:
-        print("horriblescraper.py -s <show_name> -q <quality> -a <start_episode> -z <end_episode>")
+        print("nyaascraper.py -s <show_name> -q <quality> -a <start_episode> -z <end_episode>")
         sys.exit(2)
 
     for opt, arg in opts:
