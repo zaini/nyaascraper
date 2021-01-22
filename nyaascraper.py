@@ -8,11 +8,6 @@ import webbrowser
 import requests
 from bs4 import BeautifulSoup
 
-# url = 'https://nyaa.si/user/subsplease?f=0&c=0_0&q={}&o=desc&p={}' # -3, -2
-# url = 'https://nyaa.si/user/Erai-raws?f=0&c=0_0&q={}&o=desc&p={}' # -3, -2 if has "multiple subtitles" else -2, -1
-# url = 'https://nyaa.si/user/HorribleSubs?f=0&c=0_0&q={}&o=desc&p={}' # -2, -1
-
-
 class URL:
     def __init__(self, url, ep_index, quality_index, alt_ep_index = None, alt_quality_index = None, condition = lambda x: False):
         self.url = url
@@ -25,9 +20,12 @@ class URL:
 
         self.condition = condition
 
+
 subsplease_url = URL('https://nyaa.si/user/subsplease?f=0&c=0_0&q={}&o=desc&p={}', -3, -2)
 erairaws_url = URL('https://nyaa.si/user/Erai-raws?f=0&c=0_0&q={}&o=desc&p={}', -2, -1, -3, -2, lambda x: "[Multiple Subtitle]" in x) # condition returns True if the given row_title or content['title'] should use the alt indices
 horriblesubs_url = URL('https://nyaa.si/user/HorribleSubs?f=0&c=0_0&q={}&o=desc&p={}', -2, -1)
+
+groups = {'hs' : horriblesubs_url, 'er' : erairaws_url, 'sp' : subsplease_url}
 
 base_url = 'https://nyaa.si/'
 
@@ -66,7 +64,7 @@ def download(group, show_name, quality, start_ep, end_ep, req_file, sleep_time=0
                     try:
                         if start_ep <= float(row_title[ep_index]) <= end_ep and quality in row_title[quality_index]:
                             print("Opening: " + content['title'])
-                            # webbrowser.open(magnet)
+                            webbrowser.open(magnet)
                             episodes_to_download -= 1
                             time.sleep(sleep_time)
                     except Exception as e:
@@ -85,12 +83,15 @@ def download(group, show_name, quality, start_ep, end_ep, req_file, sleep_time=0
 
 
 def usage_error():
-    print("usage: nyaascraper.py -s <show_name> -q <quality> -a <start_episode> -z <end_episode>\nadd -f or "
-          "--file at the end to download the .torrent files instead of open magnets")
+    print("usage: nyaascraper.py -g <group_name> -s <show_name> -q <quality> -a <start_episode> -z <end_episode>\nAdd -f or "
+          "--file at the end to download the .torrent files instead of open magnets\n"
+          "If you don't give a group name, Erai-raws is used by default.\n"
+          "er = Erai-raws, hs = horriblesubs, sp = subsplease")
     sys.exit(2)
 
 
 if __name__ == '__main__':
+    group_name = 'er'
     show_name = None
     quality = None
     start_ep = None
@@ -98,15 +99,17 @@ if __name__ == '__main__':
     req_file = False
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hfs:q:a:z:", ["help", "file", "show=", "quality=", "start=", "end="])
+        opts, args = getopt.getopt(sys.argv[1:], "hfg:s:q:a:z:", ["help", "file", "group=", "show=", "quality=", "start=", "end="])
     except getopt.GetoptError:
-        print("nyaascraper.py -s <show_name> -q <quality> -a <start_episode> -z <end_episode>")
+        usage_error()
         sys.exit(2)
 
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             # TODO add more help information
             usage_error()
+        elif opt in ("-g", "--group"):
+            group_name = arg
         elif opt in ("-s", "--show"):
             show_name = arg
         elif opt in ("-q", "--quality"):
@@ -118,9 +121,9 @@ if __name__ == '__main__':
         elif opt in ("-f", "--file"):
             req_file = True
 
-    tags = [show_name, quality, start_ep, end_ep, req_file]
+    tags = [group_name, show_name, quality, start_ep, end_ep, req_file]
 
     if None in tags:
         usage_error()
     else:
-        download(erairaws_url, show_name, quality, start_ep, end_ep, req_file)
+        download(groups.get(group_name, groups['er']), show_name, quality, start_ep, end_ep, req_file)
