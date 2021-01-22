@@ -8,12 +8,32 @@ import webbrowser
 import requests
 from bs4 import BeautifulSoup
 
-url = 'https://nyaa.si/user/HorribleSubs?f=0&c=0_0&q={}&o=desc&p={}'
+# url = 'https://nyaa.si/user/subsplease?f=0&c=0_0&q={}&o=desc&p={}' # -3, -2
+# url = 'https://nyaa.si/user/Erai-raws?f=0&c=0_0&q={}&o=desc&p={}' # -3, -2 if has "multiple subtitles" else -2, -1
+# url = 'https://nyaa.si/user/HorribleSubs?f=0&c=0_0&q={}&o=desc&p={}' # -2, -1
+
+
+class URL:
+    def __init__(self, url, ep_index, quality_index, alt_ep_index = None, alt_quality_index = None, condition = lambda x: False):
+        self.url = url
+
+        self.ep_index = ep_index
+        self.quality_index = quality_index
+
+        self.alt_ep_index = ep_index if alt_ep_index == None else alt_ep_index
+        self.alt_quality_index = quality_index if alt_quality_index == None else alt_quality_index
+
+        self.condition = condition
+
+subsplease_url = URL('https://nyaa.si/user/subsplease?f=0&c=0_0&q={}&o=desc&p={}', -3, -2)
+erairaws_url = URL('https://nyaa.si/user/Erai-raws?f=0&c=0_0&q={}&o=desc&p={}', -2, -1, -3, -2, lambda x: "[Multiple Subtitle]" in x) # condition returns True if the given row_title or content['title'] should use the alt indices
+horriblesubs_url = URL('https://nyaa.si/user/HorribleSubs?f=0&c=0_0&q={}&o=desc&p={}', -2, -1)
+
 base_url = 'https://nyaa.si/'
 
 
-def download(show_name, quality, start_ep, end_ep, req_file, sleep_time=0.5):
-    search_url = url.format(show_name, "{}")
+def download(group, show_name, quality, start_ep, end_ep, req_file, sleep_time=0.5):
+    search_url = group.url.format(show_name, "{}")
     start_ep = int(start_ep)
     end_ep = int(end_ep)
     episodes_to_download = end_ep - start_ep + 1
@@ -29,20 +49,29 @@ def download(show_name, quality, start_ep, end_ep, req_file, sleep_time=0.5):
 
             links = row.find_all('td', class_='text-center')[0].find_all('a')
             magnet = base_url + links[0]['href'] if req_file else links[1]['href']
-
+            
             for content in row_contents:
                 # Checking that content being looked at is the 'a' element with the episode name
                 if content.has_attr('title') and show_name.upper() in content['title'].upper():
                     row_title = content['title'].split(" ")
+
+                    if group.condition(content['title']):
+                        ep_index = group.alt_ep_index
+                        quality_index = group.alt_quality_index
+                    else:
+                        ep_index = group.ep_index
+                        quality_index = group.quality_index
+
                     # Checking that row is an episode to be downloaded
                     try:
-                        if start_ep <= float(row_title[-2]) <= end_ep and quality in row_title[-1]:
+                        if start_ep <= float(row_title[ep_index]) <= end_ep and quality in row_title[quality_index]:
                             print("Opening: " + content['title'])
-                            webbrowser.open(magnet)
+                            # webbrowser.open(magnet)
                             episodes_to_download -= 1
                             time.sleep(sleep_time)
-                    except:
+                    except Exception as e:
                         # Title format is unexpected
+                        print(f"Did not download: {content['title']}\nError: {e}\n")
                         pass
 
         # Break if the actual page is not the same as page_number, meaning there are no more pages
@@ -94,4 +123,4 @@ if __name__ == '__main__':
     if None in tags:
         usage_error()
     else:
-        download(show_name, quality, start_ep, end_ep, req_file)
+        download(erairaws_url, show_name, quality, start_ep, end_ep, req_file)
