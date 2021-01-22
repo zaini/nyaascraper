@@ -21,6 +21,7 @@ Video walkthrough: https://youtu.be/YAVOioo6PPM
 * output which files were not found
 * add more videos
 * deal with more errors
+* update this README
 
 # Requirements
 * Python 3.0+
@@ -35,18 +36,25 @@ Video walkthrough: https://youtu.be/YAVOioo6PPM
 
 # Usage
 
+For the group names, use the following: ```er = Erai-raws, hs = horriblesubs, sp = subsplease```
+
 ```
-python nyaascraper.py -s <show_name> -q <quality> -a <start_epsiode> -z <end_epsiode>
+python nyaascraper.py -g <group_name> -s <show_name> -q <quality> -a <start_epsiode> -z <end_epsiode>
 ```
 
 e.g.
 
 ```
-python nyaascraper.py -s "shingeki no kyojin" -q 720 -a 10 -z 15
+python nyaascraper.py -s "shingeki no kyojin" -q 720 -a 10 -z 15 -g hs
 ```
 
 ```
-python nyaascraper.py -s Gleipnir -q 1080 -a 0 -z 999
+python nyaascraper.py -s Gleipnir -q 1080 -a 0 -z 999 -g sp
+```
+
+If the group doesn't exist (or you don't specify a group) then Erai-raws will be used as a default.
+```
+python nyaascraper.py -s "shingeki no kyojin" -q 720 -a 10 -z 15 -g fakegroup
 ```
 
 Enter the show's name as you would search for it on nyaa.si/user/INSERT_GROUP_NAME
