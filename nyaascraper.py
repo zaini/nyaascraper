@@ -8,8 +8,9 @@ import webbrowser
 import requests
 from bs4 import BeautifulSoup
 
+
 class URL:
-    def __init__(self, url, ep_index, quality_index, alt_ep_index = None, alt_quality_index = None, condition = lambda x: False):
+    def __init__(self, url, ep_index, quality_index, alt_ep_index=None, alt_quality_index=None, condition=lambda x: False):
         self.url = url
 
         self.ep_index = ep_index
@@ -21,11 +22,15 @@ class URL:
         self.condition = condition
 
 
-subsplease_url = URL('https://nyaa.si/user/subsplease?f=0&c=0_0&q={}&o=desc&p={}', -3, -2)
-erairaws_url = URL('https://nyaa.si/user/Erai-raws?f=0&c=0_0&q={}&o=desc&p={}', -2, -1, -3, -2, lambda x: "[Multiple Subtitle]" in x) # condition returns True if the given row_title or content['title'] should use the alt indices
-horriblesubs_url = URL('https://nyaa.si/user/HorribleSubs?f=0&c=0_0&q={}&o=desc&p={}', -2, -1)
+subsplease_url = URL(
+    'https://nyaa.si/user/subsplease?f=0&c=0_0&q={}&o=desc&p={}', -3, -2)
+# condition returns True if the given row_title or content['title'] should use the alt indices
+erairaws_url = URL('https://nyaa.si/user/Erai-raws?f=0&c=0_0&q={}&o=desc&p={}', -
+                   2, -1, -3, -2, lambda x: "[Multiple Subtitle]" in x)
+horriblesubs_url = URL(
+    'https://nyaa.si/user/HorribleSubs?f=0&c=0_0&q={}&o=desc&p={}', -2, -1)
 
-groups = {'hs' : horriblesubs_url, 'er' : erairaws_url, 'sp' : subsplease_url}
+groups = {'hs': horriblesubs_url, 'er': erairaws_url, 'sp': subsplease_url}
 
 base_url = 'https://nyaa.si/'
 
@@ -46,8 +51,9 @@ def download(group, show_name, quality, start_ep, end_ep, req_file, sleep_time=0
             row_contents = row.findAll('a')
 
             links = row.find_all('td', class_='text-center')[0].find_all('a')
-            magnet = base_url + links[0]['href'] if req_file else links[1]['href']
-            
+            magnet = base_url + \
+                links[0]['href'] if req_file else links[1]['href']
+
             for content in row_contents:
                 # Checking that content being looked at is the 'a' element with the episode name
                 if content.has_attr('title') and show_name.upper() in content['title'].upper():
@@ -69,7 +75,8 @@ def download(group, show_name, quality, start_ep, end_ep, req_file, sleep_time=0
                             time.sleep(sleep_time)
                     except Exception as e:
                         # Title format is unexpected
-                        print(f"Did not download: {content['title']}\nError: {e}\n")
+                        print(
+                            f"Did not download: {content['title']}\nError: {e}\n")
                         pass
 
         # Break if the actual page is not the same as page_number, meaning there are no more pages
@@ -99,7 +106,8 @@ if __name__ == '__main__':
     req_file = False
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hfg:s:q:a:z:", ["help", "file", "group=", "show=", "quality=", "start=", "end="])
+        opts, args = getopt.getopt(sys.argv[1:], "hfg:s:q:a:z:", [
+                                   "help", "file", "group=", "show=", "quality=", "start=", "end="])
     except getopt.GetoptError:
         usage_error()
         sys.exit(2)
@@ -126,4 +134,5 @@ if __name__ == '__main__':
     if None in tags:
         usage_error()
     else:
-        download(groups.get(group_name, groups['er']), show_name, quality, start_ep, end_ep, req_file)
+        download(groups.get(
+            group_name, groups['er']), show_name, quality, start_ep, end_ep, req_file)
