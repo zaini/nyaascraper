@@ -22,15 +22,27 @@ class URL:
         self.condition = condition
 
 
+# Supported
 subsplease_url = URL(
     'https://nyaa.si/user/subsplease?f=0&c=0_0&q={}&o=desc&p={}', -3, -2)
-# condition returns True if the given row_title or content['title'] should use the alt indices
+# lambda condition returns True if the given row_title or content['title'] should use the alt indices
 erairaws_url = URL('https://nyaa.si/user/Erai-raws?f=0&c=0_0&q={}&o=desc&p={}', -
                    2, -1, -3, -2, lambda x: "[Multiple Subtitle]" in x)
 horriblesubs_url = URL(
     'https://nyaa.si/user/HorribleSubs?f=0&c=0_0&q={}&o=desc&p={}', -2, -1)
 
-groups = {'hs': horriblesubs_url, 'er': erairaws_url, 'sp': subsplease_url}
+# Not official supported
+kiyoshii_url = URL(
+    'https://nyaa.si/user/kiyoshiisubs?f=0&c=0_0&q={}&o=desc&p={}', -4, -1)
+mayansito_url = URL(
+    'https://nyaa.si/user/Mayansito?f=0&c=0_0&q={}&o=desc&p={}', -6, -1)
+ssa_url = URL(
+    'https://nyaa.si/user/SmallSizedAnimations?f=0&c=0_0&q={}&o=desc&p={}', -2, -1)
+ember_url = URL(
+    'https://nyaa.si/user/Ember_Encodes?f=0&c=0_0&q={}&o=desc&p={}', -3, -2)
+
+groups = {'hs': horriblesubs_url, 'er': erairaws_url, 'sp': subsplease_url,
+          'kiyoshiisubs': kiyoshii_url, 'mayansito': mayansito_url, 'ssa': ssa_url, 'ember': ember_url}
 
 base_url = 'https://nyaa.si/'
 
