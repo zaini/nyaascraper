@@ -35,6 +35,14 @@ groups = {'hs': horriblesubs_url, 'er': erairaws_url, 'sp': subsplease_url}
 base_url = 'https://nyaa.si/'
 
 
+def get_rows_from_soup(soup):
+    success_rows = soup.find_all('tr', class_='success')
+    danger_rows = soup.find_all('tr', class_='danger')
+    default_rows = soup.find_all('tr', class_='default')
+    rows = success_rows + danger_rows + default_rows
+    return rows
+
+
 def download(group, show_name, quality, start_ep, end_ep, req_file, sleep_time=0.5):
     search_url = group.url.format(show_name, "{}")
     start_ep = int(start_ep)
@@ -45,7 +53,8 @@ def download(group, show_name, quality, start_ep, end_ep, req_file, sleep_time=0
         page_url = search_url.format(page_number)
         page_html = requests.get(page_url)
         soup = BeautifulSoup(page_html.text, 'html.parser')
-        rows = soup.find_all('tr', class_='success')
+
+        rows = get_rows_from_soup(soup)
 
         for row in rows:
             row_contents = row.findAll('a')
