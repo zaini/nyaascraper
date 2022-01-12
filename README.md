@@ -34,7 +34,8 @@ Video walkthrough (of horriblescraper, which is very similar): https://youtu.be/
 # Installation
 
 1. Download nyaascraper.py
-2. Run `pip install -r requirements.txt`
+2. Make sure you have [pip](https://pip.pypa.io/en/stable/installation/) installed
+3. Run `pip install -r requirements.txt`
 
 # Usage
 
