@@ -33,11 +33,8 @@ Video walkthrough (of horriblescraper, which is very similar): https://youtu.be/
 
 # Installation
 
-- Download nyaascraper.py and run it
-- You will need to have `requests` and `BeautifulSoup` installed
-  - To install these, you will need `pip`
-  - Simply run `pip install requests` and `pip install beautifulsoup4`
-  - Search online for more help if you need it
+1. Download nyaascraper.py
+2. Run `pip install -r requirements.txt`
 
 # Usage
 
